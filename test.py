@@ -5,7 +5,7 @@ from openpyxl import Workbook
 from openpyxl  import load_workbook
 
 # 找到表的所在路径
-xpath = r'D:\data\python' # 相对路径目录
+xpath = r'C:\Users\lxw6-\learngit' # 相对路径目录
 xlspath = r'考勤.xlsx' # 相对路径
 xxlspath = xpath + "\\" + xlspath # 绝对路径
 
@@ -52,10 +52,4 @@ for a_row in rows_data:
 #     all_row_dict.append(row_data)
 
 # print(all_row_dict)
-
-
-
-
-
-
 
