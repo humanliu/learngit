@@ -74,12 +74,10 @@ g = 'G'
 h = 'H'
 sang = 'S'
 shi = '△'
-for i in list_rows[2] a:
-        
-        print(i.value,end=" ")
+for i in list_rows[2]:
+    print(i.value,end=" ")
 # 汇总每行的√ 出勤（可以用颜色区分是否是节假日和双休日！！！）
-    if i.value == gou :
-        
+    if i.value == gou :  
         chuqin += 1.0
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
