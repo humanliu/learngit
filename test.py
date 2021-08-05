@@ -12,7 +12,7 @@ xxlspath = xpath + "\\" + xlspath # 绝对路径
 
 # 获取表和工作簿
 file_kaoqin = openpyxl.load_workbook(xxlspath)# 获取文件
-table_kaoqin = file_kaoqin['考勤表']# 获取工作簿
+table_kaoqin = file_kaoqin['考勤表']# 获取考勤表
 table_huizong = file_kaoqin['汇总表']# 获取汇总表
 people = 13 # 人员数,这里可以添加input
 use_rows = 'AG%d'%(people+4) # 所需要取的行数
@@ -64,7 +64,8 @@ for a_row in rows_data:
     # all_row_dict.append(row_data)
     # print(all_row_dict)
 
-chuqin = chuchai = jiaban = gongxiu = buxiu = hunjia = sangjia = shijia = 0.0
+# 初始化各个值
+chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = 0.0
 gou = '√'
 c = 'C'
 # ban = re.findall("\d+",)
@@ -73,23 +74,25 @@ g = 'G'
 h = 'H'
 sang = 'S'
 shi = '△'
-for i in list_rows[2]:
-    print(i.value,end=" ")
-# 汇总每行的√ 出勤
-    if i.value == gou or i.value ==c:
+for i in list_rows[2] a:
+        
+        print(i.value,end=" ")
+# 汇总每行的√ 出勤（可以用颜色区分是否是节假日和双休日！！！）
+    if i.value == gou :
+        
         chuqin += 1.0
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
         chuqin += 0.5   
 # 汇总每行的C 出差
     if i.value == c:
-        chuchai += 1.0
+        chuqin += 1.0
 # 汇总每行的+n 加班
     if len(i.value)>2 and i.value[1] == '+' :
             ban = i.value[2:]
-            if ban=='夜':
+            if ban=='夜':# 显示夜班时直接改为8小时
                 ban = 8.0
-            jiaban += float(ban)
+            jiaban += float(ban)# 是浮点数不是整数
             chuqin += 1.0
             # print (n)
 # 汇总每行的G 公休
