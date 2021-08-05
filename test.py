@@ -73,44 +73,58 @@ g = 'G'
 h = 'H'
 sang = 'S'
 shi = '△'
-for i in list_rows[7]:
+for i in list_rows[2]:
     print(i.value,end=" ")
 # 汇总每行的√ 出勤
-    if i.value == gou:
+    if i.value == gou or i.value ==c:
         chuqin += 1.0
+    if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
+        # print (' 这里增加了:',i.value[0:2])
+        chuqin += 0.5   
 # 汇总每行的C 出差
     if i.value == c:
         chuchai += 1.0
 # 汇总每行的+n 加班
     if len(i.value)>2 and i.value[1] == '+' :
             ban = i.value[2:]
+            if ban=='夜':
+                ban = 8.0
             jiaban += float(ban)
-            chuqin += 1
+            chuqin += 1.0
             # print (n)
 # 汇总每行的G 公休
-
     if i.value == g:
-        gongxiu += 1
+        gongxiu += 1.0
+    if len(i.value)>2 and (i.value[0:2] == 'G/'or i.value[1:3] == '/G' ):
+        gongxiu += 0.5
 # 汇总每行的B 补休
     if i.value == b:
-        buxiu += 1
+        buxiu += 1.0
+    if len(i.value)>2 and (i.value[0:2] == 'B/'or i.value[1:3] == '/B' ):
+        buxiu += 0.5
 # 汇总每行的△ 事假
     if i.value == shi:
-        shijia += 1
+        shijia += 1.0
+    if len(i.value)>2 and (i.value[0:2] == (shi,'/')or i.value[1:3] == ('/',shi) ):
+        shijia += 0.5
 # 汇总每行的H 婚假
     if i.value == h:
-        hunjia += 1
+        hunjia += 1.0
+    if len(i.value)>2 and (i.value[0:2] == 'H/'or i.value[1:3] == '/H' ):
+        hunjia += 0.5
 # 汇总每行的S 丧假
     if i.value == sang:
-        sangjia += 1
+        sangjia += 1.0
+    if len(i.value)>2 and (i.value[0:2] == 'S/'or i.value[1:3] == '/S' ):
+        sangjia += 0.5
 # 汇总每行的....
 # print ('出差:',chuchai,end=' ')
 print("加班：",jiaban,end='')
-# print ('出勤：',chuqin,end='')
-# print ('公休：',gongxiu,end='')
-# print ('补休：',buxiu,end='')
-# print ('事假：',shijia,end='')
-# print ('婚假：',hunjia,end='')
-# print ('丧假：',sangjia,end='')
+print ('出勤：',chuqin,end='')
+print ('公休：',gongxiu,end='')
+print ('补休：',buxiu,end='')
+print ('事假：',shijia,end='')
+print ('婚假：',hunjia,end='')
+print ('丧假：',sangjia,end='')
 
 

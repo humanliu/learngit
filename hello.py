@@ -121,5 +121,5 @@ import xlwt
 # message = '姓名:{},年龄:{}'.format(name,age)
 # print(message)
 
-a = '@+3'
-print(a[1:])
+a = '√/夜'
+print(a[0:2])
