@@ -67,6 +67,7 @@ for a_row in rows_data:
 # 初始化各个值
 chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = shuangxiu = jiejia =  0.0
 gou = '√'
+gou_jiaban = '√+'
 c = 'C'
 # ban = re.findall("\d+",)
 b = 'B'
@@ -75,34 +76,34 @@ h = 'H'
 sang = 'S'
 shi = '△'
 shuangxiufg = 'FFD9D9D9'
-sanxiufg = 'FFFFFF00'
+sanxinfg = 'FFFFFF00'
 for i in list_rows[2]:
     print(i.value,end=" ")
 # 汇总每行的√ 出勤
-    if i.value == gou :  
+    if i.value == gou or i.value == gou_jiaban:  
         chuqin += 1.0
         # 根据颜色区分是否为公休日、节假日
         if i.fill.fgColor.rgb == shuangxiufg:
             shuangxiu += 1.0
-        if i.fill.fgColor.rgb == sanxiufg:
+        if i.fill.fgColor.rgb == sanxinfg:
             jiejia += 1.0
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
         chuqin += 0.5   
-# 汇总每行的C 出差（公休出差问题未解决）
+# 汇总每行的C 出差（公休出差是否为双倍、三倍？？？？？？？）
     if i.value == c:
         chuqin += 1.0
         if i.fill.fgColor.rgb == shuangxiufg:
             shuangxiu += 1.0
-        if i.fill.fgColor.rgb == sanxiufg:
+        if i.fill.fgColor.rgb == sanxinfg:
             jiejia += 1.0
-# 汇总每行的+n 加班  ！！！！这里的公休日的加班费情况没有算！！！
-    if len(i.value)>2 and i.value[1] == '+' :
+# 汇总每行的+n 加班  这里的公休日夜间的加班费情况没有算！！！
+    if len(i.value)>2 and i.value[0:1] == '+' :
             ban = i.value[2:]
             if ban=='夜':# 显示夜班时直接改为8小时
                 ban = 8.0
             jiaban += float(ban)# 是浮点数不是整数
-            chuqin += 1.0
+            
             # print (n)
 # 汇总每行的G 公休
     if i.value == g:
@@ -118,7 +119,7 @@ for i in list_rows[2]:
     if i.value == shi:
         shijia += 1.0
     if len(i.value)>2 and (i.value[0:2] == (shi,'/')or i.value[1:3] == ('/',shi) ):
-        shijia += 0.5
+        shijia += 0.5#  这里有问题
 # 汇总每行的H 婚假
     if i.value == h:
         hunjia += 1.0
@@ -133,17 +134,18 @@ for i in list_rows[2]:
 # print ('出差:',chuchai,end=' ')
 # 每个月能拿加班费的时间不能大于4.5天
 if shuangxiu+jiejia > 4.5:
-   liangxin = shuangxiu - (4.5-jiejia)
-   shuangxiu = 4.5-jiejia
+   shuangxiu = shuangxiu - (4.5-jiejia)
+   liangxin = 4.5-jiejia
    buxiu = buxiu + liangxin 
 print("加班：",jiaban,end='')
 print ('出勤：',chuqin,end='')
 print ('公休：',gongxiu,end='')
 print ('补休：',buxiu,end='')
 print ('事假：',shijia,end='')
+# print ('事假：',shi,'/')
 print ('婚假：',hunjia,end='')
 print ('丧假：',sangjia,end='')
-print ('双休加班：',shuangxiu,end='')
+print ('双休加班：',liangxin,end='')
 print ('节假日加班：',jiejia,end='')
 # print ('颜色：',list_rows[2][0].fill.fgColor.rgb)
 
