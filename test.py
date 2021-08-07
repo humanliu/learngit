@@ -65,7 +65,7 @@ for a_row in rows_data:
     # print(all_row_dict)
 
 # 初始化各个值
-chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = 0.0
+chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = shuangxiu = jiejia =  0.0
 gou = '√'
 c = 'C'
 # ban = re.findall("\d+",)
@@ -74,11 +74,18 @@ g = 'G'
 h = 'H'
 sang = 'S'
 shi = '△'
+shuangxiufg = 'FFD9D9D9'
+sanxiufg = 'FFFFFF00'
 for i in list_rows[2]:
     print(i.value,end=" ")
-# 汇总每行的√ 出勤（可以用颜色区分是否是节假日和双休日！！！）
+# 汇总每行的√ 出勤
     if i.value == gou :  
         chuqin += 1.0
+        # 根据颜色区分是否为公休日、节假日
+        if i.fill.fgColor.rgb == shuangxiufg:
+            shuangxiu += 1.0
+        if i.fill.fgColor.rgb == sanxiufg:
+            jiejia += 1.0
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
         chuqin += 0.5   
@@ -127,5 +134,8 @@ print ('补休：',buxiu,end='')
 print ('事假：',shijia,end='')
 print ('婚假：',hunjia,end='')
 print ('丧假：',sangjia,end='')
+print ('双休加班：',shuangxiu,end='')
+print ('节假日加班：',jiejia,end='')
+# print ('颜色：',list_rows[2][0].fill.fgColor.rgb)
 
 
