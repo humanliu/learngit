@@ -89,10 +89,14 @@ for i in list_rows[2]:
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
         chuqin += 0.5   
-# 汇总每行的C 出差
+# 汇总每行的C 出差（公休出差问题未解决）
     if i.value == c:
         chuqin += 1.0
-# 汇总每行的+n 加班
+        if i.fill.fgColor.rgb == shuangxiufg:
+            shuangxiu += 1.0
+        if i.fill.fgColor.rgb == sanxiufg:
+            jiejia += 1.0
+# 汇总每行的+n 加班  ！！！！这里的公休日的加班费情况没有算！！！
     if len(i.value)>2 and i.value[1] == '+' :
             ban = i.value[2:]
             if ban=='夜':# 显示夜班时直接改为8小时
@@ -127,6 +131,11 @@ for i in list_rows[2]:
         sangjia += 0.5
 # 汇总每行的....
 # print ('出差:',chuchai,end=' ')
+# 每个月能拿加班费的时间不能大于4.5天
+if shuangxiu+jiejia > 4.5:
+   liangxin = shuangxiu - (4.5-jiejia)
+   shuangxiu = 4.5-jiejia
+   buxiu = buxiu + liangxin 
 print("加班：",jiaban,end='')
 print ('出勤：',chuqin,end='')
 print ('公休：',gongxiu,end='')
