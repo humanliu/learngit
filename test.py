@@ -65,7 +65,7 @@ for a_row in rows_data:
     # print(all_row_dict)
 
 # 初始化各个值
-chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = shuangxiu = jiejia =  0.0
+chuqin = chuqin_x = chuchai = jiaban = jiaban_x = gongxiu = buxiu = hunjia = sangjia = shijia = shuangxiu = liangxin = jiejia =  0.0
 gou = '√'
 gou_jiaban = '√+'
 c = 'C'
@@ -80,7 +80,7 @@ sanxinfg = 'FFFFFF00'
 for i in list_rows[2]:
     print(i.value,end=" ")
 # 汇总每行的√ 出勤
-    if i.value == gou or i.value == gou_jiaban:  
+    if i.value == gou :  
         chuqin += 1.0
         # 根据颜色区分是否为公休日、节假日
         if i.fill.fgColor.rgb == shuangxiufg:
@@ -89,7 +89,7 @@ for i in list_rows[2]:
             jiejia += 1.0
     if len(i.value)>2 and (i.value[0:2] == '√/'or i.value[1:3] == '/√' ):
         # print (' 这里增加了:',i.value[0:2])
-        chuqin += 0.5   
+        chuqin += 0.5
 # 汇总每行的C 出差（公休出差是否为双倍、三倍？？？？？？？）
     if i.value == c:
         chuqin += 1.0
@@ -97,14 +97,22 @@ for i in list_rows[2]:
             shuangxiu += 1.0
         if i.fill.fgColor.rgb == sanxinfg:
             jiejia += 1.0
-# 汇总每行的+n 加班  这里的公休日夜间的加班费情况没有算！！！
-    if len(i.value)>2 and i.value[0:1] == '+' :
-            ban = i.value[2:]
-            if ban=='夜':# 显示夜班时直接改为8小时
-                ban = 8.0
-            jiaban += float(ban)# 是浮点数不是整数
-            
-            # print (n)
+# 汇总每行的+n 加班
+    if len(i.value)>2 and i.value[1] == '+' :
+        ban = i.value[2:]
+        if ban=='夜':# 显示夜班时直接改为8小时
+            ban = 8.0
+            if i.value[0] == gou:
+                chuqin += 1# 这里加入公休日夜间的加班费情况
+                if i.fill.fgColor.rgb == shuangxiufg:
+                    shuangxiu += 1+ban/8.0
+                if i.fill.fgColor.rgb == sanxinfg:
+                    jiejia += 1+ban/8.0
+                    # print ("jiejia:",jiejia)
+                else:
+                    jiaban += float(ban)# 是浮点数不是整数
+                    print("chuqin:",chuqin)
+            # print (n
 # 汇总每行的G 公休
     if i.value == g:
         gongxiu += 1.0
