@@ -111,7 +111,7 @@ for i in list_rows[2]:
                     # print ("jiejia:",jiejia)
                 else:
                     jiaban += float(ban)# 是浮点数不是整数
-                    print("chuqin:",chuqin)
+                    # print("chuqin:",chuqin)
             # print (n
 # 汇总每行的G 公休
     if i.value == g:
@@ -126,8 +126,9 @@ for i in list_rows[2]:
 # 汇总每行的△ 事假
     if i.value == shi:
         shijia += 1.0
-    if len(i.value)>2 and (i.value[0:2] == (shi,'/')or i.value[1:3] == ('/',shi) ):
-        shijia += 0.5#  这里有问题
+    if len(i.value)>2 and (i.value[0:2] == ('△/')or i.value[1:3] == ('/△') ): # 这里没法用shi,'/'
+    # if len(i.value)>2 and (i.value[0:2] == (shi,'/')or i.value[1:3] == ('/',shi) ):
+        shijia += 0.5
 # 汇总每行的H 婚假
     if i.value == h:
         hunjia += 1.0
